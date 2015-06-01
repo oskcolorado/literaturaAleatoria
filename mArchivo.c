@@ -6,6 +6,8 @@
 
 int main (int argc, char const *argv[]) {
 
-    leeDirectorio(argc,argv[1]);
+    if ((strcmp(argv[1],"-d") == 0)) {
+        leeDirectorio(argc,argv[2]);
+    }
     return 0;
 }
