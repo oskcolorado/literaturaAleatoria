@@ -33,7 +33,7 @@ void leeDirectorio(int tam, char const *directorio) {
     }
 
     while ((pDirent = readdir(pDir)) != NULL) {
-        if ((strcmp(pDirent->d_name,"..") != 0) && (strcmp(pDirent->d_name,".") != 0) && (pDirent->d_type == 8)) {
+        if ((strcmp(pDirent->d_name,"..") != 0) && (strcmp(pDirent->d_name,".") != 0) && (pDirent->d_type == DT_REG)) {
             printf ("[%s]\n", pDirent->d_name);
             strcpy(str, directorio);
             strcat(str, pDirent->d_name);
@@ -48,7 +48,7 @@ void leeDirectorio(int tam, char const *directorio) {
                 memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
             }
         }
-        else if ((strcmp(pDirent->d_name,"..") != 0) && (strcmp(pDirent->d_name,".") != 0) && (pDirent->d_type == 4)) {
+        else if ((strcmp(pDirent->d_name,"..") != 0) && (strcmp(pDirent->d_name,".") != 0) && (pDirent->d_type == DT_DIR)) {
             strcpy(str, directorio);
             strcat(str, pDirent->d_name);
             strcat(str, "/");
