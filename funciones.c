@@ -4,8 +4,7 @@
 
 #include "funciones.h"
 
-int mgetline (char *line, int max, FILE *f)
-{
+int mgetline (char *line, int max, FILE *f) {
 
     if (fgets(line, max, f)== NULL)
        return(0);
@@ -58,4 +57,35 @@ void leeDirectorio(int tam, char const *directorio) {
     }
     /* free(flinea); */
     closedir (pDir);
+}
+
+int numero_random(int x){
+    int n;
+    srand(time(NULL));  /* semilla */
+    n = rand()%x;       /* rellena con numeros entre 0 y x-1 */
+    return n; 
+}
+
+int* mArregloAleatorio(int m, int numArchivos) {
+    int* arreglo = (int*)malloc(sizeof(int)*m);
+    int arregloLocal[numArchivos];
+    int i, tam, random;
+
+    tam = numArchivos;
+
+    for (i = 0; i <= numArchivos; ++i) {
+        arregloLocal[i] = i+1;
+        //printf("--> %d\n", arregloLocal[i]);
+    }
+
+    i = 0;
+    while (i < m) {
+        random = numero_random(tam);
+        arreglo[i] = arregloLocal[random];
+        arregloLocal[random] = arregloLocal[tam-1];
+        tam--;
+        i++;
+    }
+
+    return arreglo;
 }
