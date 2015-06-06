@@ -13,8 +13,9 @@ int main (int argc, char const *argv[]) {
 
     fflush(stdin);
 
-    int* arreglo = mArregloAleatorio(5,11);
-	for (i = 0; i < 5; ++i) {
+    int* arreglo = mArregloAleatorio(5,5);
+
+	for (i = 0; i < 4; ++i) {
         printf("--> %d\n", arreglo[i]);
     }    
 

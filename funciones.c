@@ -75,10 +75,12 @@ int* mArregloAleatorio(int m, int numArchivos) {
 
     for (i = 0; i <= numArchivos; ++i) {
         arregloLocal[i] = i+1;
-        //printf("--> %d\n", arregloLocal[i]);
     }
 
     i = 0;
+    if (m >= numArchivos) {
+        m = numArchivos;
+    }
     while (i < m) {
         random = numero_random(tam);
         arreglo[i] = arregloLocal[random];
