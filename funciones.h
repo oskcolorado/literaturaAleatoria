@@ -21,3 +21,4 @@ extern int mgetline (char* line, int max, FILE* f);
 extern void leeDirectorio(int tam, char const *directorio);
 extern int numero_random(int x);
 extern int* mArregloAleatorio(int m, int numArchivos);
+extern void procesos();

@@ -91,3 +91,27 @@ int* mArregloAleatorio(int m, int numArchivos) {
 
     return arreglo;
 }
+
+void procesos() {
+    int nProcesos = 3;
+    int i;
+    int* status;
+
+    pid_t proc;
+
+    for (i = 0; i < nProcesos; ++i) {
+        if ((proc = fork()) < 0) {
+            perror("fork");
+            exit(1);
+        }
+        if (proc == 0) {
+            printf("Soy el hijo con pid %d\n", getpid());
+            exit(0);
+        }
+    }
+
+    for (i = 0; i < nProcesos; ++i) {
+        wait(&status);
+    }
+    printf("Soy el padre con pid %d\n", getppid());
+}
