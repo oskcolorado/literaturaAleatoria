@@ -5,26 +5,40 @@
 #include "funciones.h"
 
 int main (int argc, char const *argv[]) {
+	srand(time(NULL));  /* semilla */
 	pid_t pid;
-	int j,i, p[2], pArreglo[5], numer;
-	int rArreglo[5];	/* Ruta de los pipes */
+	int j,i, p[2], pArreglo[5], rArreglo[5];
+	char *strcat(char *dest, const char *src);
+    char str[RUTA],aux[RUTA];
+
+	char rutaArreglo[5][RUTA];	/* Ruta de los pipes */
 
     if ((strcmp(argv[1],"-d") == 0)) {
         leeDirectorio(argc,argv[2]);
     }
 
     /* Se crea un areglo de pipes */
-
+    /* Se crea un areglo con los numeros de los archivos */
     for (i = 0; i < 5; ++i) {
     	pArreglo[i] = pipe(p);
-    	//rArreglo[i] = (numero_random(10)+1);
-    	numer = (numero_random(10)+1);
-    	printf("-----> random : %d\n", numer);
+    	rArreglo[i] = (char)(numero_random(10)+1);
     }
 
+    /* Se crea un areglo de con las rutas de cada proceso */
+    for (i = 0; i < 5; ++i) {
+    	strcpy(str, "./");
+    	sprintf(aux, "%d", rArreglo[i]); 
+    	strcat(str, aux);
+    	strcat(str, "/");
+    	strcpy(rutaArreglo[i], str);
+    	memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
+    }
+
+    /* Imprime los tres arreglos */
     for (i = 0; i < 5; ++i) {
     	printf("pArreglo%d : %d\n", i, pArreglo[i]);
-    	//printf("rArreglo%d : %d\n", i, rArreglo[i]);
+    	printf("rArreglo%d : %d\n", i, rArreglo[i]);
+    	printf("rutaArreglo%d : %s\n", i, rutaArreglo[i]);
     }
 
     int* arreglo = mArregloAleatorio(5,5);

@@ -61,7 +61,6 @@ void leeDirectorio(int tam, char const *directorio) {
 
 int numero_random(int x){
     int n;
-    srand(time(NULL));  /* semilla */
     n = rand()%x;       /* rellena con numeros entre 0 y x-1 */
     return n; 
 }
