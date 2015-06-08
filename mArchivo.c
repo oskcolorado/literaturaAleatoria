@@ -7,7 +7,8 @@
 int main (int argc, char const *argv[]) {
 	srand(time(NULL));  /* semilla */
 	pid_t pid;
-	int j,i, p[2], pArreglo[5], rArreglo[5];
+	int j, x, i, p[2], pArreglo[5];
+    char rArreglo[5];
 	char *strcat(char *dest, const char *src);
     char str[RUTA],aux[RUTA];
 
@@ -21,7 +22,19 @@ int main (int argc, char const *argv[]) {
     /* Se crea un areglo con los numeros de los archivos */
     for (i = 0; i < 5; ++i) {
     	pArreglo[i] = pipe(p);
-    	rArreglo[i] = (char)(numero_random(10)+1);
+        rArreglo[i] = "0";
+        while (rArreglo[i] == "0") {
+            x = numero_random(10)+1;
+            for (j = 0; j < 5; j++) {
+                if (rArreglo[i] == x) {
+                    break;
+                }
+            }
+            printf("%d\n", j);
+            if (j = 5) {
+                rArreglo[i] = (char) x;
+            }
+        }
     }
 
     /* Se crea un areglo de con las rutas de cada proceso */
