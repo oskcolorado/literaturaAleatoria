@@ -8,7 +8,7 @@ int main (int argc, char const *argv[]) {
 	srand(time(NULL));  /* semilla */
 	pid_t pid;
 	int j, x, i, p[2], pArreglo[5];
-    char rArreglo[5];
+    int rArreglo[5];
 	char *strcat(char *dest, const char *src);
     char str[RUTA],aux[RUTA];
 
@@ -22,17 +22,16 @@ int main (int argc, char const *argv[]) {
     /* Se crea un areglo con los numeros de los archivos */
     for (i = 0; i < 5; ++i) {
     	pArreglo[i] = pipe(p);
-        rArreglo[i] = "0";
-        while (rArreglo[i] == "0") {
+        rArreglo[i] = 0;
+        while (rArreglo[i] == 0) {
             x = numero_random(10)+1;
             for (j = 0; j < 5; j++) {
-                if (rArreglo[i] == x) {
-                    break;
+                if (rArreglo[j] == x) {
+                    j = 6;
                 }
             }
-            printf("%d\n", j);
-            if (j = 5) {
-                rArreglo[i] = (char) x;
+            if (j == 5) {
+                rArreglo[i] = x;
             }
         }
     }
@@ -49,9 +48,8 @@ int main (int argc, char const *argv[]) {
 
     /* Imprime los tres arreglos */
     for (i = 0; i < 5; ++i) {
-    	printf("pArreglo%d : %d\n", i, pArreglo[i]);
-    	printf("rArreglo%d : %d\n", i, rArreglo[i]);
-    	printf("rutaArreglo%d : %s\n", i, rutaArreglo[i]);
+    	printf("pArreglo[%d] : %d\n", i, pArreglo[i]);
+    	printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
     }
 
     int* arreglo = mArregloAleatorio(5,5);
