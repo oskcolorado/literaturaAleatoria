@@ -13,6 +13,7 @@
 /* Definicion de constantes */
 #define MAXCHAR 105
 #define RUTA 6
+#define SIZE 512
 
 /* Estructura para manejar archivos */
 struct dirent *pDirent;
@@ -23,3 +24,4 @@ extern void leeDirectorio(int tam, char const *directorio);
 extern int numero_random(int x);
 extern int* mArregloAleatorio(int m, int numArchivos);
 extern void procesos();
+extern void composicion();

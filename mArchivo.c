@@ -46,17 +46,21 @@ int main (int argc, char const *argv[]) {
     	memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
     }
 
-    /* Imprime los tres arreglos */
-    for (i = 0; i < 5; ++i) {
-    	printf("pArreglo[%d] : %d\n", i, pArreglo[i]);
-    	printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
-    }
+    ///* Imprime los tres arreglos */
+    //for (i = 0; i < 5; ++i) {
+    //	printf("pArreglo[%d] : %d\n", i, pArreglo[i]);
+    //	printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
+    //}
 
     int* arreglo = mArregloAleatorio(5,5);
 
-	for (i = 0; i < 4; ++i) {
-        printf("--> %d\n", arreglo[i]);
-    }
+	//for (i = 0; i < 4; ++i) {
+    //    printf("--> %d\n", arreglo[i]);
+    //}
+
+    /* Prueba de la funcion composicion */
+
+    composicion();
 
     /* Liberacion de memoria */
     free(arreglo);
