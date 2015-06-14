@@ -26,6 +26,7 @@ void leeDirectorio(int tam, char const *directorio) {
         exit(0);
     }
     pDir = opendir (directorio);
+    
     if (pDir == NULL) {
         printf ("Cannot open directory '%s'\n", directorio);
         exit(0);
