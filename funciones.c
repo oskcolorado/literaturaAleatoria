@@ -60,7 +60,7 @@ void leeDirectorio(int tam, char const *directorio) {
     closedir (pDir);
 }
 
-void buscaArchivos(char *directorio) {
+int buscaArchivos(char *directorio) {
     /* Declaracion de variables */
     DIR *pDir;
     int  numArchivos = 0;
@@ -72,13 +72,13 @@ void buscaArchivos(char *directorio) {
     }
 
     while ((pDirent = readdir(pDir)) != NULL) {
-        if ((strcmp(pDirent->d_name,"..") != 0) && (strcmp(pDirent->d_name,".") != 0) && (pDirent->d_type == DT_REG)) {
+        if ((strcmp(pDirent->d_name,".") != 0) && (strcmp(pDirent->d_name,"..") != 0) && (pDirent->d_type == DT_REG)) {
             numArchivos ++;
             printf ("[%s]\n", pDirent->d_name);
         }
     }
     closedir (pDir);
-    printf("%d\n", numArchivos);
+    return numArchivos;
 }
 
 int numero_random(int x){
@@ -137,19 +137,52 @@ void procesos() {
     printf("Soy el padre con pid %d\n", getppid());
 }
 
-void composicion(int *p) {
+void composicion(int *p, char *dirArchivo, int m) {
     /* Inicializacion de variables */
     pid_t pid;
-    int   i, readbytes;//, p[2];
+    int   i, readbytes, numArchivos;//, p[2];
     char  buffer[SIZE], linea[SIZE];
     FILE  *archivo, *archivo1;
-    char  rutaArreglo[5][SIZE];
+    char  rutaArreglo[10][SIZE];
+    char  *strcat(char *dest, const char *src);
+    char  str[RUTA], aux[RUTA];
  
     /* Instrucciones */
-    strcpy(rutaArreglo[0], "./git/1/killer.txt");
+    strcpy(rutaArreglo[0], "./git/1/1.txt");
     strcpy(rutaArreglo[1], "./git/4/anikilator.txt");
 
     //printf("---> [%s] --> [%s]\n", rutaArreglo[0], rutaArreglo[1]);
+    printf("%s\n", dirArchivo);
+    numArchivos = buscaArchivos(dirArchivo);
+    printf("%d\n", numArchivos);
+    printf("m = %d\n", m);
+
+    if (m >= numArchivos) {
+        printf("entre\n");
+        m = numArchivos;
+    }
+
+    printf("nuevo m = %d\n", m);
+
+    int* arreglo = mArregloAleatorio(m, numArchivos);
+
+    for (i = 0; i < m; ++i) {
+        printf("--> %d\n", arreglo[i]);
+    }
+
+    /* Se crea un areglo con las rutas de cada proceso */
+    for (i = 0; i < m; ++i) {
+        strcpy(str, dirArchivo);
+        sprintf(aux, "%d", arreglo[i]); 
+        strcat(str, aux);
+        strcat(str, ".txt");
+        strcpy(rutaArreglo[i], str);
+        memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
+    }   
+
+    for (i = 0; i < m; ++i) {
+        printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
+    }
 
     pipe(p);
     pid = fork();
@@ -170,7 +203,7 @@ void composicion(int *p) {
 
         strcpy(buffer,"");
         close(p[0]); /* cerramos el lado de lectura del pipe */
-        for (i = 0; i < 2; ++i) {
+        for (i = 0; i < m; ++i) {
             archivo = fopen(rutaArreglo[i],"r");
             while (mgetline(linea, sizeof(linea), archivo) > 0) {
                 strcat( buffer,linea);

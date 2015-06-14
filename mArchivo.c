@@ -49,10 +49,10 @@ int main (int argc, char const *argv[]) {
     }
 
     /* Imprime los tres arreglos */
-    for (i = 0; i < n; ++i) {
+    //for (i = 0; i < n; ++i) {
     //	printf("pArreglo[%d] : %d\n", i, pArreglo[i]);
-        printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
-    }
+    //    printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
+    //}
 
     int* arreglo = mArregloAleatorio(5,5);
 
@@ -62,11 +62,11 @@ int main (int argc, char const *argv[]) {
 
     /* Prueba de la funcion composicion */
 
-    for (i = 0; i < n; ++i) {
-        buscaArchivos(rutaArreglo[i]);
-    }
+    //for (i = 0; i < n; ++i) {
+    //    buscaArchivos(rutaArreglo[i]);
+    //}
 
-    composicion(&pArreglo[0]);
+    composicion(&pArreglo[0], rutaArreglo[0], m);
 
     /* Liberacion de memoria */
     free(arreglo);
