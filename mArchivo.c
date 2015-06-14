@@ -7,38 +7,40 @@
 int main (int argc, char const *argv[]) {
 	srand(time(NULL));  /* semilla */
 	pid_t pid;
-	int j, x, i, p[2], pArreglo[5];
-    int rArreglo[5];
-	char *strcat(char *dest, const char *src);
-    char str[RUTA],aux[RUTA];
+	int   j, x, i, p[2], pArreglo[10], m, n;
+    int   rArreglo[10];
+	char  *strcat(char *dest, const char *src);
+    char  str[RUTA], aux[RUTA];
 
-	char rutaArreglo[5][RUTA];	/* Ruta de los pipes */
+	char  rutaArreglo[10][MAXCHAR];	/* Ruta de los pipes */
 
     if ((strcmp(argv[1],"-d") == 0)) {
         leeDirectorio(argc,argv[2]);
+        n = atoi(argv[3]);
+        m = atoi(argv[4]);
     }
 
     /* Se crea un areglo de pipes */
     /* Se crea un areglo con los numeros de los archivos */
-    for (i = 0; i < 5; ++i) {
+    for (i = 0; i < n; ++i) {
     	pArreglo[i] = pipe(p);
         rArreglo[i] = 0;
         while (rArreglo[i] == 0) {
             x = numero_random(10)+1;
-            for (j = 0; j < 5; j++) {
+            for (j = 0; j < n; j++) {
                 if (rArreglo[j] == x) {
-                    j = 6;
+                    j = n+1;
                 }
             }
-            if (j == 5) {
+            if (j == n) {
                 rArreglo[i] = x;
             }
         }
     }
 
-    /* Se crea un areglo de con las rutas de cada proceso */
-    for (i = 0; i < 5; ++i) {
-    	strcpy(str, "./");
+    /* Se crea un areglo con las rutas de cada proceso */
+    for (i = 0; i < n; ++i) {
+    	strcpy(str, argv[2]);
     	sprintf(aux, "%d", rArreglo[i]); 
     	strcat(str, aux);
     	strcat(str, "/");
@@ -46,11 +48,11 @@ int main (int argc, char const *argv[]) {
     	memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
     }
 
-    ///* Imprime los tres arreglos */
-    //for (i = 0; i < 5; ++i) {
+    /* Imprime los tres arreglos */
+    for (i = 0; i < n; ++i) {
     //	printf("pArreglo[%d] : %d\n", i, pArreglo[i]);
-    //	printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
-    //}
+        printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
+    }
 
     int* arreglo = mArregloAleatorio(5,5);
 
@@ -60,7 +62,11 @@ int main (int argc, char const *argv[]) {
 
     /* Prueba de la funcion composicion */
 
-    composicion();
+    for (i = 0; i < n; ++i) {
+        buscaArchivos(rutaArreglo[i]);
+    }
+
+    composicion(&pArreglo[0]);
 
     /* Liberacion de memoria */
     free(arreglo);

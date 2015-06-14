@@ -21,7 +21,7 @@ void leeDirectorio(int tam, char const *directorio) {
     char str[MAXCHAR];
     char linea[MAXCHAR];
 
-    if (tam < 2) {
+    if (tam < 4) {
         printf ("Usage: testprog <dirname>\n");
         exit(0);
     }
@@ -57,6 +57,27 @@ void leeDirectorio(int tam, char const *directorio) {
     }
     /* free(flinea); */
     closedir (pDir);
+}
+
+void buscaArchivos(char *directorio) {
+    /* Declaracion de variables */
+    DIR *pDir;
+    int  numArchivos = 0;
+
+    pDir = opendir (directorio);
+    if (pDir == NULL) {
+        printf ("Cannot open directory '%s'\n", directorio);
+        exit(0);
+    }
+
+    while ((pDirent = readdir(pDir)) != NULL) {
+        if ((strcmp(pDirent->d_name,"..") != 0) && (strcmp(pDirent->d_name,".") != 0) && (pDirent->d_type == DT_REG)) {
+            numArchivos ++;
+            printf ("[%s]\n", pDirent->d_name);
+        }
+    }
+    closedir (pDir);
+    printf("%d\n", numArchivos);
 }
 
 int numero_random(int x){
@@ -115,52 +136,49 @@ void procesos() {
     printf("Soy el padre con pid %d\n", getppid());
 }
 
-void composicion() {
+void composicion(int *p) {
+    /* Inicializacion de variables */
     pid_t pid;
-    int p[2], readbytes;
-    char buffer[SIZE];
-    /* De Archivo */
-    FILE *archivo;
-    FILE *archivo1;
-    char linea[SIZE];
+    int   i, readbytes;//, p[2];
+    char  buffer[SIZE], linea[SIZE];
+    FILE  *archivo, *archivo1;
+    char  rutaArreglo[5][SIZE];
  
-    pipe( p );
-    pid=fork();
+    /* Instrucciones */
+    strcpy(rutaArreglo[0], "./git/1/killer.txt");
+    strcpy(rutaArreglo[1], "./git/4/anikilator.txt");
 
-    if ( pid == 0 ) { // hijo
-        close( p[1] ); /* cerramos el lado de escritura del pipe */
+    //printf("---> [%s] --> [%s]\n", rutaArreglo[0], rutaArreglo[1]);
+
+    pipe(p);
+    pid = fork();
+
+    if (pid == 0) { // hijo
+
+        close(p[1]); /* cerramos el lado de escritura del pipe */
         archivo1 = fopen("output.txt","w");
 
-        while( (readbytes=read( p[0], buffer, SIZE )) > 0) {
+        while((readbytes=read(p[0], buffer, SIZE)) > 0) {
             //fprintf(archivo1, "%s",buffer);
             fwrite(buffer, 1, readbytes,archivo1);
         }
         fclose(archivo1); 
-        close( p[0] );
+        close(p[0]);
     }
     else { // padre
-        archivo = fopen("./git/1/killer.txt","r");
 
-        close( p[0] ); /* cerramos el lado de lectura del pipe */
-
-        strcpy( buffer,"");
-        while (mgetline(linea, sizeof(linea), archivo) > 0) {
-            strcat( buffer,linea);
+        strcpy(buffer,"");
+        close(p[0]); /* cerramos el lado de lectura del pipe */
+        for (i = 0; i < 2; ++i) {
+            archivo = fopen(rutaArreglo[i],"r");
+            while (mgetline(linea, sizeof(linea), archivo) > 0) {
+                strcat( buffer,linea);
+            }
+            strcat( buffer,"\n");
         }
-
-        strcat( buffer,"\n");
-
-        archivo = fopen("./git/4/anikilator.txt","r");
-
-        while (mgetline(linea, sizeof(linea), archivo) > 0) {
-            strcat( buffer,linea);
-        }
-
-        strcat( buffer,"\n");
-        write( p[1], buffer, strlen( buffer ) );
- 
-        close( p[1] );
+        write(p[1], buffer, strlen(buffer));
+        close(p[1]);
     }
-    waitpid( pid, NULL, 0 );
-    exit( 0 );
+    waitpid(pid, NULL, 0);
+    exit(0);
 }
