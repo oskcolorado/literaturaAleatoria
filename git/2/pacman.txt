@@ -1,2 +1,0 @@
---> Estoy en la carpeta 2
-	--> Plan de Movistar
