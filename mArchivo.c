@@ -11,7 +11,7 @@ int main (int argc, char const *argv[]) {
     int   rArreglo[10];
 	char  *strcat(char *dest, const char *src);
     char  str[RUTA], aux[RUTA];
-
+    FILE  *archivo1;
 	char  rutaArreglo[10][MAXCHAR];	/* Ruta de los pipes */
 
     if ((strcmp(argv[1],"-d") == 0)) {
@@ -54,7 +54,7 @@ int main (int argc, char const *argv[]) {
     //    printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
     //}
 
-    int* arreglo = mArregloAleatorio(5,5);
+    //int* arreglo = mArregloAleatorio(5,5);
 
 	//for (i = 0; i < 4; ++i) {
     //    printf("--> %d\n", arreglo[i]);
@@ -66,10 +66,15 @@ int main (int argc, char const *argv[]) {
     //    buscaArchivos(rutaArreglo[i]);
     //}
 
-    composicion(&pArreglo[0], rutaArreglo[0], m);
+    for (i = 0; i < n; ++i) {
+        printf(">>>>> %s\n", rutaArreglo[i]);
+        composicion(&pArreglo[i], rutaArreglo[i], m);
+    }
+
+    //composicion(&pArreglo[0], rutaArreglo[0], m);
 
     /* Liberacion de memoria */
-    free(arreglo);
+    //free(arreglo);
 
     return 0;
 }

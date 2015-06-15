@@ -148,8 +148,8 @@ void composicion(int *p, char *dirArchivo, int m) {
     char  str[RUTA], aux[RUTA];
  
     /* Instrucciones */
-    strcpy(rutaArreglo[0], "./git/1/1.txt");
-    strcpy(rutaArreglo[1], "./git/4/anikilator.txt");
+    //strcpy(rutaArreglo[0], "./git/1/1.txt");
+    //strcpy(rutaArreglo[1], "./git/4/anikilator.txt");
 
     //printf("---> [%s] --> [%s]\n", rutaArreglo[0], rutaArreglo[1]);
     printf("%s\n", dirArchivo);
@@ -158,7 +158,6 @@ void composicion(int *p, char *dirArchivo, int m) {
     printf("m = %d\n", m);
 
     if (m >= numArchivos) {
-        printf("entre\n");
         m = numArchivos;
     }
 
@@ -180,17 +179,17 @@ void composicion(int *p, char *dirArchivo, int m) {
         memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
     }   
 
-    for (i = 0; i < m; ++i) {
-        printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
-    }
+    //for (i = 0; i < m; ++i) {
+    //    printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
+    //}
 
     pipe(p);
     pid = fork();
 
-    if (pid == 0) { // hijo
+    if (pid == 0) {
 
         close(p[1]); /* cerramos el lado de escritura del pipe */
-        archivo1 = fopen("output.txt","w");
+        archivo1 = fopen("output.txt","a");
 
         while((readbytes=read(p[0], buffer, SIZE)) > 0) {
             //fprintf(archivo1, "%s",buffer);
@@ -198,8 +197,10 @@ void composicion(int *p, char *dirArchivo, int m) {
         }
         fclose(archivo1); 
         close(p[0]);
+
+        exit(m);
     }
-    else { // padre
+    else {
 
         strcpy(buffer,"");
         close(p[0]); /* cerramos el lado de lectura del pipe */
@@ -214,5 +215,5 @@ void composicion(int *p, char *dirArchivo, int m) {
         close(p[1]);
     }
     waitpid(pid, NULL, 0);
-    exit(0);
+    //exit(m);
 }
