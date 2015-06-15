@@ -21,7 +21,7 @@ void leeDirectorio(int tam, char const *directorio) {
     char str[MAXCHAR];
     char linea[MAXCHAR];
 
-    if (tam < 4) {
+    if (tam < 6) {
         printf ("Usage: testprog <dirname>\n");
         exit(0);
     }
@@ -137,7 +137,7 @@ void procesos() {
     printf("Soy el padre con pid %d\n", getppid());
 }
 
-void composicion(int *p, char *dirArchivo, int m) {
+void composicion(int *p, char *dirArchivo, int m, const char *salida) {
     /* Inicializacion de variables */
     pid_t pid;
     int   i, readbytes, numArchivos;//, p[2];
@@ -189,13 +189,13 @@ void composicion(int *p, char *dirArchivo, int m) {
     if (pid == 0) {
 
         close(p[1]); /* cerramos el lado de escritura del pipe */
-        archivo1 = fopen("output.txt","a");
+        archivo1 = fopen(salida,"a");
 
         while((readbytes=read(p[0], buffer, SIZE)) > 0) {
             //fprintf(archivo1, "%s",buffer);
             fwrite(buffer, 1, readbytes,archivo1);
         }
-        fclose(archivo1); 
+        //fclose(archivo1); 
         close(p[0]);
 
         exit(m);

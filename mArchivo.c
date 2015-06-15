@@ -66,11 +66,12 @@ int main (int argc, char const *argv[]) {
     //    buscaArchivos(rutaArreglo[i]);
     //}
 
+    archivo1 = fopen(argv[5],"w");
     for (i = 0; i < n; ++i) {
         printf(">>>>> %s\n", rutaArreglo[i]);
-        composicion(&pArreglo[i], rutaArreglo[i], m);
+        composicion(&pArreglo[i], rutaArreglo[i], m, argv[5]);
     }
-
+    fclose(archivo1);
     //composicion(&pArreglo[0], rutaArreglo[0], m);
 
     /* Liberacion de memoria */

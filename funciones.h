@@ -25,4 +25,4 @@ extern int buscaArchivos(char *directorio);
 extern int numero_random(int x);
 extern int* mArregloAleatorio(int m, int numArchivos);
 extern void procesos();
-extern void composicion(int *p, char *dirArchivo, int m);
+extern void composicion(int *p, char *dirArchivo, int m, const char *salida);
