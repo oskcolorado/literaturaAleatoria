@@ -16,7 +16,6 @@ void leeDirectorio(int tam, char const *directorio) {
     /* Declaracion de variables */
     DIR *pDir;
     FILE *archivo;
-    /* char *flinea = (char*)malloc(sizeof(MAXCHAR)); */
     char *strcat(char *dest, const char *src);
     char str[MAXCHAR];
     char linea[MAXCHAR];
@@ -34,16 +33,13 @@ void leeDirectorio(int tam, char const *directorio) {
 
     while ((pDirent = readdir(pDir)) != NULL) {
         if ((strcmp(pDirent->d_name,"..") != 0) && (strcmp(pDirent->d_name,".") != 0) && (pDirent->d_type == DT_REG)) {
-            //printf ("[%s]\n", pDirent->d_name);
             strcpy(str, directorio);
             strcat(str, pDirent->d_name);
             archivo = fopen(str,"r");
 
             if (archivo != NULL){
                 while (mgetline(linea, sizeof(linea), archivo) > 0) {
-                    //printf("%s",linea);
                 }
-                //printf("\n\n");
                 fclose(archivo);    /* Se cierra el archivo. */
                 memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
             }
@@ -74,7 +70,6 @@ int buscaArchivos(char *directorio) {
     while ((pDirent = readdir(pDir)) != NULL) {
         if ((strcmp(pDirent->d_name,".") != 0) && (strcmp(pDirent->d_name,"..") != 0) && (pDirent->d_type == DT_REG)) {
             numArchivos ++;
-            printf ("[%s]\n", pDirent->d_name);
         }
     }
     closedir (pDir);
@@ -113,34 +108,10 @@ int* mArregloAleatorio(int m, int numArchivos) {
     return arreglo;
 }
 
-void procesos() {
-    int nProcesos = 3;
-    int i;
-    int* status;
-
-    pid_t proc;
-
-    for (i = 0; i < nProcesos; ++i) {
-        if ((proc = fork()) < 0) {
-            perror("fork");
-            exit(1);
-        }
-        if (proc == 0) {
-            printf("Soy el hijo con pid %d\n", getpid());
-            exit(0);
-        }
-    }
-
-    for (i = 0; i < nProcesos; ++i) {
-        wait(&status);
-    }
-    printf("Soy el padre con pid %d\n", getppid());
-}
-
 void composicion(int *p, char *dirArchivo, int m, const char *salida) {
     /* Inicializacion de variables */
     pid_t pid;
-    int   i, readbytes, numArchivos;//, p[2];
+    int   i, readbytes, numArchivos;
     char  buffer[SIZE], linea[SIZE];
     FILE  *archivo, *archivo1;
     char  rutaArreglo[10][SIZE];
@@ -148,26 +119,14 @@ void composicion(int *p, char *dirArchivo, int m, const char *salida) {
     char  str[RUTA], aux[RUTA];
  
     /* Instrucciones */
-    //strcpy(rutaArreglo[0], "./git/1/1.txt");
-    //strcpy(rutaArreglo[1], "./git/4/anikilator.txt");
 
-    //printf("---> [%s] --> [%s]\n", rutaArreglo[0], rutaArreglo[1]);
-    printf("%s\n", dirArchivo);
     numArchivos = buscaArchivos(dirArchivo);
-    printf("%d\n", numArchivos);
-    printf("m = %d\n", m);
 
     if (m >= numArchivos) {
         m = numArchivos;
     }
 
-    printf("nuevo m = %d\n", m);
-
     int* arreglo = mArregloAleatorio(m, numArchivos);
-
-    for (i = 0; i < m; ++i) {
-        printf("--> %d\n", arreglo[i]);
-    }
 
     /* Se crea un areglo con las rutas de cada proceso */
     for (i = 0; i < m; ++i) {
@@ -179,11 +138,6 @@ void composicion(int *p, char *dirArchivo, int m, const char *salida) {
         memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
     }   
 
-    //for (i = 0; i < m; ++i) {
-    //    printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
-    //}
-
-    pipe(p);
     pid = fork();
 
     if (pid == 0) {
@@ -192,10 +146,8 @@ void composicion(int *p, char *dirArchivo, int m, const char *salida) {
         archivo1 = fopen(salida,"a");
 
         while((readbytes=read(p[0], buffer, SIZE)) > 0) {
-            //fprintf(archivo1, "%s",buffer);
             fwrite(buffer, 1, readbytes,archivo1);
         }
-        //fclose(archivo1); 
         close(p[0]);
 
         exit(m);
@@ -215,5 +167,7 @@ void composicion(int *p, char *dirArchivo, int m, const char *salida) {
         close(p[1]);
     }
     waitpid(pid, NULL, 0);
-    //exit(m);
+
+    /* Liberacion de memoria */
+    free(arreglo);
 }

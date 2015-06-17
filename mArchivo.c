@@ -6,8 +6,7 @@
 
 int main (int argc, char const *argv[]) {
 	srand(time(NULL));  /* semilla */
-	pid_t pid;
-	int   j, x, i, p[2], pArreglo[10], m, n;
+	int   j, x, i, p[atoi(argv[3])][2], m, n;
     int   rArreglo[10];
 	char  *strcat(char *dest, const char *src);
     char  str[RUTA], aux[RUTA];
@@ -23,7 +22,7 @@ int main (int argc, char const *argv[]) {
     /* Se crea un areglo de pipes */
     /* Se crea un areglo con los numeros de los archivos */
     for (i = 0; i < n; ++i) {
-    	pArreglo[i] = pipe(p);
+    	pipe(p[i]);;
         rArreglo[i] = 0;
         while (rArreglo[i] == 0) {
             x = numero_random(10)+1;
@@ -48,31 +47,11 @@ int main (int argc, char const *argv[]) {
     	memset(str, '\0', sizeof(str)); /* Se inicializa el arreglo str. */
     }
 
-    /* Imprime los tres arreglos */
-    //for (i = 0; i < n; ++i) {
-    //	printf("pArreglo[%d] : %d\n", i, pArreglo[i]);
-    //    printf("rutaArreglo[%d] : %s\n", i, rutaArreglo[i]);
-    //}
-
-    //int* arreglo = mArregloAleatorio(5,5);
-
-	//for (i = 0; i < 4; ++i) {
-    //    printf("--> %d\n", arreglo[i]);
-    //}
-
-    /* Prueba de la funcion composicion */
-
-    //for (i = 0; i < n; ++i) {
-    //    buscaArchivos(rutaArreglo[i]);
-    //}
-
     archivo1 = fopen(argv[5],"w");
     for (i = 0; i < n; ++i) {
-        printf(">>>>> %s\n", rutaArreglo[i]);
-        composicion(&pArreglo[i], rutaArreglo[i], m, argv[5]);
+        composicion(p[i], rutaArreglo[i], m, argv[5]);
     }
     fclose(archivo1);
-    //composicion(&pArreglo[0], rutaArreglo[0], m);
 
     /* Liberacion de memoria */
     //free(arreglo);
