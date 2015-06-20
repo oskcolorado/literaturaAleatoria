@@ -4,6 +4,14 @@
 
 #include "funciones.h"
 
+/**
+ * @brief  mgetline Calcula el tamaño de una cadena de caracteres.
+ * @param *line Contiene la cadena de caracteres.
+ * @param  max  Tamaño en bytes de la cadena de caracteres.
+ * @param *f Contiene el archivo de donde viene la cadena.
+ * @return 0 Regresa cero.
+ * @return strlen(line) Regresa el tamaño de la cadena.
+**/
 int mgetline (char *line, int max, FILE *f) {
 
     if (fgets(line, max, f)== NULL)
@@ -20,10 +28,6 @@ void leeDirectorio(int tam, char const *directorio) {
     char str[MAXCHAR];
     char linea[MAXCHAR];
 
-    if (tam < 6) {
-        printf ("Usage: testprog <dirname>\n");
-        exit(0);
-    }
     pDir = opendir (directorio);
     
     if (pDir == NULL) {

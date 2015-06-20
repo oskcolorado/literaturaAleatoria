@@ -13,10 +13,18 @@ int main (int argc, char const *argv[]) {
     FILE  *archivo1;
 	char  rutaArreglo[10][MAXCHAR];	/* Ruta de los pipes */
 
+    if (argc < 6) {
+        printf ("Usage: testprog <dirname>\n");
+        exit(0);
+    }
     if ((strcmp(argv[1],"-d") == 0)) {
         leeDirectorio(argc,argv[2]);
         n = atoi(argv[3]);
         m = atoi(argv[4]);
+    }
+    else {
+        printf("Syntax error: Lack -d\n");
+        exit(0);
     }
 
     /* Se crea un areglo de pipes */
@@ -52,9 +60,6 @@ int main (int argc, char const *argv[]) {
         composicion(p[i], rutaArreglo[i], m, argv[5]);
     }
     fclose(archivo1);
-
-    /* Liberacion de memoria */
-    //free(arreglo);
 
     return 0;
 }
