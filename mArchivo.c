@@ -4,6 +4,12 @@
 
 #include "funciones.h"
 
+ /**
+ * @brief  main FUncion principal del programa.
+ * @param  argc Contiene el numero de argumentos recibidos por el programa.
+ * @param  *argv[] Contiene los parametros pasados en el mismo orden en que fueron escritos.
+ * @return 0 Regresa cero.
+**/
 int main (int argc, char const *argv[]) {
 	srand(time(NULL));  /* semilla */
 	int   j, x, i, p[atoi(argv[3])][2], m, n;
@@ -20,6 +26,9 @@ int main (int argc, char const *argv[]) {
     if ((strcmp(argv[1],"-d") == 0)) {
         leeDirectorio(argc,argv[2]);
         n = atoi(argv[3]);
+        if (n > 10) {
+            n = 10;
+        }
         m = atoi(argv[4]);
     }
     else {

@@ -1,86 +1,48 @@
-MARCHIVO(1)                                                               User Commands                                                               MARCHIVO(1)
+MARCHIVO(1)                                          COMANDOS DE USUARIO
 
 
+NOMBRE
+       mArchivo - Componer Archivos
 
-NAME
-       mArchivo - format and print data
-
-SYNOPSIS
-       mArchivo FORMAT [ARGUMENT]...
-       mArchivo OPTION
-
-DESCRIPTION
-       Print ARGUMENT(s) according to FORMAT, or execute according to OPTION:
-
-       --help display this help and exit
-
-       --version
-              output version information and exit
-
-       FORMAT controls the output as in C mArchivo.  Interpreted sequences are:
-
-       \"     double quote
-
-       \\     backslash
-
-       \a     alert (BEL)
-
-       \b     backspace
-
-       \c     produce no further output
-
-       \e     escape
-
-       \f     form feed
-
-       \n     new line
-
-       \r     carriage return
-
-       \t     horizontal tab
-
-       \v     vertical tab
-
-       \NNN   byte with octal value NNN (1 to 3 digits)
-
-       \xHH   byte with hexadecimal value HH (1 to 2 digits)
-
-       \uHHHH Unicode (ISO/IEC 10646) character with hex value HHHH (4 digits)
-
-       \UHHHHHHHH
-              Unicode character with hex value HHHHHHHH (8 digits)
-
-       %%     a single %
-
-       %b     ARGUMENT as a string with '\' escapes interpreted, except that octal escapes are of the form \0 or \0NNN
-
-       and all C format specifications ending with one of diouxXfeEgGcs, with ARGUMENTs converted to proper type first.  Variable widths are handled.
-
-       NOTE:  your shell may have its own version of mArchivo, which usually supersedes the version described here.  Please refer to your shell's documentation
-       for details about the options it supports.
-
-AUTHOR
-       Written by David MacKenzie.
-
-REPORTING BUGS
-       Report mArchivo bugs to bug-coreutils@gnu.org
-       GNU coreutils home page: <http://www.gnu.org/software/coreutils/>
-       General help using GNU software: <http://www.gnu.org/gethelp/>
-       Report mArchivo translation bugs to <http://translationproject.org/team/>
-
-COPYRIGHT
-       Copyright © 2013 Free Software Foundation, Inc.  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
-       This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
-
-SEE ALSO
-       mArchivo(3)
-
-       The full documentation for mArchivo is maintained as a Texinfo manual.  If the info and mArchivo programs are properly installed at your site, the command
-
-              info coreutils 'mArchivo invocation'
-
-       should give you access to the complete manual.
+SINOPSIS
+       mArchivo [-d DIRECTORIO] <N> <M> <SALIDA>.
 
 
+DESCRIPCION
+       Crea un archivo SALIDA que contiene el cuento final.
+       El cuento final consta de una composicion de poesia aleatoria
+       donde se escogeran n procesos que trabajaran m archivos cada uno.
 
-GNU coreutils 8.21                                                       January 2015                                                               MARCHIVO(1)
+       DIRECTORIO Especifica undirectorio donde se encuentran los 10
+                  directorios de archivos de texto.
+       Ejemplo : ./miDirectorio/
+                 ./miDirectorio/carpeta1/
+       (Note que la ruta termina con / )
+
+       N Especifica el valor N que el proceso padre debe considerar.
+
+       M Especifica el valor M que los procesos hijos deben considerar.
+
+AUTOR
+       Escrito por Luis Colorado y Patricia Valencia.
+
+IMPORTANTE
+       Para la implementacion de este proyecto se tomaron ciertas
+       decisiones:
+              *      Si un directorio tiene m archivos, 
+                     donde 1 <= m <= 20, entonces dicho
+                     directorio tendra archivos del 1 al m
+                     Ejemplo: m = 4 => 1.txt, 2.txt,3.txt, 4.txt.
+
+              *      El programa trabajara con un maximo de 10
+                     procesos hijos. En el caso donde el usuario 
+                     introduzca un valor para n mayor a 10, el 
+                     programa asignara por defecto 10 procesos hijos.
+
+              *      Nuevamente recordar que la ruta del directorio
+                     donde se encuentren los archivos con las frases
+                     de la poesia a compoer debe finalizar en /
+
+GNU coreutils 8.21 
+JUNIO 2015
+MARCHIVO(1)

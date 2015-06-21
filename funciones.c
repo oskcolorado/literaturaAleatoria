@@ -20,6 +20,12 @@ int mgetline (char *line, int max, FILE *f) {
         return(strlen(line));
 }
 
+/**
+ * @brief  leeDirectorio Lee un directorio determinado.
+ * @param  tam Tamaño entero del directorio.
+ * @param  *directorio Contiene un directorio .
+ * @return void.
+**/
 void leeDirectorio(int tam, char const *directorio) {
     /* Declaracion de variables */
     DIR *pDir;
@@ -60,6 +66,11 @@ void leeDirectorio(int tam, char const *directorio) {
     closedir (pDir);
 }
 
+/**
+ * @brief  buscarArchivos Calcula el numero de archivos dentro de un directorio determinado.
+ * @param  *directorio Contiene el directorio donde se buscara los archivos.
+ * @return numArchivos Numero de archivos encontrados en el directorio.
+**/
 int buscaArchivos(char *directorio) {
     /* Declaracion de variables */
     DIR *pDir;
@@ -80,12 +91,23 @@ int buscaArchivos(char *directorio) {
     return numArchivos;
 }
 
+/**
+ * @brief  numero_random Genera un numero aleatorio.
+ * @param  x Entero cualquiera que establece el tope de hasta donde se generara el numero.
+ * @return n Entero aleatorio generado.
+**/
 int numero_random(int x){
     int n;
     n = rand()%x;       /* rellena con numeros entre 0 y x-1 */
     return n; 
 }
 
+/**
+ * @brief  mArregloAleatorio Modifica un arreglo devolviendolo en orden aleatorio.
+ * @param  m Es el tamaño del arreglo a considerar (m introducido por el usuario).
+ * @param  numArchivos Contiene el numero de archivos dentro de un directorio.
+ * @return arreglo Arreglo desordenado.
+**/
 int* mArregloAleatorio(int m, int numArchivos) {
     int* arreglo = (int*)malloc(sizeof(int)*m);
     int arregloLocal[numArchivos];
@@ -112,6 +134,14 @@ int* mArregloAleatorio(int m, int numArchivos) {
     return arreglo;
 }
 
+/**
+ * @brief  composicion Compone la "literatura aleatoria".
+ * @param  *p Pipe.
+ * @param  *dirArchivo Contiene un directorio.
+ * @param  m Numero de archivos que los procesos hijos deben considerar.
+ * @param  *salida Contiene un archivo donde se generarala salida.
+ * @return void.
+**/
 void composicion(int *p, char *dirArchivo, int m, const char *salida) {
     /* Inicializacion de variables */
     pid_t pid;
@@ -165,9 +195,10 @@ void composicion(int *p, char *dirArchivo, int m, const char *salida) {
             while (mgetline(linea, sizeof(linea), archivo) > 0) {
                 strcat( buffer,linea);
             }
-            strcat( buffer,"\n");
+            strcat( buffer,"\n\n");
         }
         write(p[1], buffer, strlen(buffer));
+        printf("%s", buffer);
         close(p[1]);
     }
     waitpid(pid, NULL, 0);
