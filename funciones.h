@@ -13,7 +13,7 @@
 /* Definicion de constantes */
 #define MAXCHAR 105
 #define RUTA 6
-#define SIZE 512
+#define SIZE 10000
 
 /* Estructura para manejar archivos */
 struct dirent *pDirent;
