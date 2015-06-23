@@ -19,7 +19,7 @@ int main (int argc, char const *argv[]) {
     FILE  *archivo1;
 	char  rutaArreglo[10][MAXCHAR];	/* Ruta de los pipes */
 
-    if (argc < 6) {
+    if (argc != 6) {
         printf ("Usage: testprog <dirname>\n");
         exit(0);
     }
